@@ -14,13 +14,6 @@ func NewFactView(c *fiber.Ctx) error {
 	})
 }
 
-func ConfirmationView(c *fiber.Ctx) error {
-	return c.Render("confirmation", fiber.Map{
-		"Title":    "Fact added successfully",
-		"Subtitle": "Add more wonderful facts to",
-	})
-}
-
 func ListFacts(c *fiber.Ctx) error {
 	facts := []models.Fact{}
 	database.DB.Db.Find(&facts)
@@ -34,11 +27,23 @@ func ListFacts(c *fiber.Ctx) error {
 func CreateFacts(c *fiber.Ctx) error {
 	fact := new(models.Fact)
 	if err := c.BodyParser(fact); err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": err.Error(),
-		})
+		return NewFactView(c)
 	}
 
-	database.DB.Db.Create(&fact)
-	return ConfirmationView(c)
+	result := database.DB.Db.Create(&fact)
+	if result.Error != nil {
+		return NewFactView(c)
+	}
+
+	return ListFacts(c)
+}
+
+func ShowFact(c *fiber.Ctx) error {
+	fact := models.Fact{}
+	id := c.Params("id")
+	database.DB.Db.Where("id = ?", id).First(&fact)
+	return c.Render("show", fiber.Map{
+		"Title": "Single Fact",
+		"Fact":  fact,
+	})
 }
