@@ -7,10 +7,28 @@ import (
 	"github.com/carltonj2000/go-fbr-dkr-pgrs/models"
 )
 
+func NewFactView(c *fiber.Ctx) error {
+	return c.Render("new", fiber.Map{
+		"Title":    "New Fact",
+		"Subtitle": "Add A Fact",
+	})
+}
+
+func ConfirmationView(c *fiber.Ctx) error {
+	return c.Render("confirmation", fiber.Map{
+		"Title":    "Fact added successfully",
+		"Subtitle": "Add more wonderful facts to",
+	})
+}
+
 func ListFacts(c *fiber.Ctx) error {
 	facts := []models.Fact{}
 	database.DB.Db.Find(&facts)
-	return c.Status(200).JSON(facts)
+	return c.Render("index", fiber.Map{
+		"Title":    "Full Stack Facts App",
+		"Subtitle": "Go Lang, Fiber, Postgres, Docker Example",
+		"Facts":    facts,
+	})
 }
 
 func CreateFacts(c *fiber.Ctx) error {
@@ -22,5 +40,5 @@ func CreateFacts(c *fiber.Ctx) error {
 	}
 
 	database.DB.Db.Create(&fact)
-	return c.Status(200).JSON(fact)
+	return ConfirmationView(c)
 }

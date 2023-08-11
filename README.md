@@ -33,3 +33,9 @@ For the orm.
 go get gorm.io/gorm
 go get gorm.io/driver/postgres
 ```
+
+For HTML templating.
+
+```bash
+go get github.com/gofiber/template/html/v2
+```
