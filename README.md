@@ -39,3 +39,12 @@ For HTML templating.
 ```bash
 go get github.com/gofiber/template/html/v2
 ```
+
+## Notes
+
+```bash
+curl -X PATCH http://localhost:3000/fact/1 \
+     -H 'Content-Type: application/json' \
+     -H 'Accept: application/json' \
+     -d '{"id": 1, "question": "Favorite Color", "Answer": "green" }'
+```

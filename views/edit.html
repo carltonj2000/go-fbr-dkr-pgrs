@@ -1,0 +1,19 @@
+<div class="container flex">
+  <form id="form-update-fact" data-factid="{{ .Fact.ID }}">
+    <label for="question">
+      <span>Question</span>
+      <input
+        type="text"
+        id="question"
+        name="question"
+        value="{{ .Fact.Question }}"
+      />
+    </label>
+    <label for="answer">
+      <span>Answer</span>
+      <input type="text" id="answer" name="answer" value="{{ .Fact.Answer }}" />
+    </label>
+
+    <input type="submit" value="update" />
+  </form>
+</div>
